@@ -6,36 +6,66 @@ public class ReflectingActivity : Activity
     private List<string> _prompts;
     private List<string> _questions;
 
-    // Constructor that properly references the base activity requirements
     public ReflectingActivity() 
         : base("Reflecting Activity", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.")
     {
-        _prompts = new List<string>();
-        _questions = new List<string>();
+        _prompts = new List<string>
+        {
+            "Think of a time when you stood up for someone else.",
+            "Think of a time when you did something really difficult.",
+            "Think of a time when you helped someone in need.",
+            "Think of a time when you did something truly selfless."
+        };
+
+        _questions = new List<string>
+        {
+            "Why was this experience meaningful to you?",
+            "Have you ever done anything like this before?",
+            "How did you get started?",
+            "How did you feel when it was complete?",
+            "What did you learn about yourself through this experience?",
+            "How can you keep this experience in mind in the future?"
+        };
     }
 
     public void Run()
     {
-        // Empty stub for design compliance
+        DisplayStartingMessage();
+        
+        Console.WriteLine("Consider the following prompt:\n");
+        Console.WriteLine($"--- {GetRandomPrompt()} ---\n");
+        Console.WriteLine("When you have something in mind, press enter to continue.");
+        Console.ReadLine();
+
+        Console.WriteLine("Now reflect on each of the following questions as they relate to this experience.");
+        Console.Write("You may begin in: ");
+        ShowCountDown(5);
+        Console.Clear();
+
+        DateTime startTime = DateTime.Now;
+        DateTime endTime = startTime.AddSeconds(GetDuration());
+
+        while (DateTime.Now < endTime)
+        {
+            Console.Write($"\n> {GetRandomQuestion()} ");
+            ShowSpinner(10);
+            Console.WriteLine();
+        }
+
+        DisplayEndingMessage();
     }
 
     public string GetRandomPrompt()
     {
-        return "";
+        Random random = new Random();
+        int index = random.Next(_prompts.Count);
+        return _prompts[index];
     }
 
     public string GetRandomQuestion()
     {
-        return "";
+        Random random = new Random();
+        int index = random.Next(_questions.Count);
+        return _questions[index];
     }
-
-    public void DisplayPrompt()
-    {
-        // Stub implementation
-    }
-
-    public void DisplayQuestions()
-    {
-        // Stub implementation
-    }
-} // FIXED: This closing brace was missing, causing the CS1513 compiler crash
+}

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 public class Activity
@@ -7,41 +8,67 @@ public class Activity
     private string _description;
     private int _duration;
 
-    // Base constructor requiring parameters for configuration consistency
     public Activity(string name, string description)
     {
         _name = name;
         _description = description;
-        _duration = 30; // Default standard value
+    }
+
+    public int GetDuration()
+    {
+        return _duration;
     }
 
     public void DisplayStartingMessage()
     {
-        Console.WriteLine($"Welcome to the {_name}.");
-        Console.WriteLine(_description);
+        Console.Clear();
+        Console.WriteLine($"Welcome to the {_name}.\n");
+        Console.WriteLine(_description + "\n");
         Console.Write("How long, in seconds, would you like for your session? ");
         _duration = int.Parse(Console.ReadLine());
+        
+        Console.Clear();
+        Console.WriteLine("Get ready...");
+        ShowSpinner(5);
+        Console.WriteLine();
     }
 
     public void DisplayEndingMessage()
     {
-        Console.WriteLine("Well done!!");
+        Console.WriteLine("\nWell done!!");
+        ShowSpinner(3);
         Console.WriteLine($"You have completed another {_duration} seconds of the {_name}.");
+        ShowSpinner(5);
     }
 
     public void ShowSpinner(int seconds)
     {
-        // Empty stub body for character iteration layout
+        List<string> animationStrings = new List<string> { "|", "/", "-", "\\" };
+        DateTime startTime = DateTime.Now;
+        DateTime endTime = startTime.AddSeconds(seconds);
+
+        int i = 0;
+        while (DateTime.Now < endTime)
+        {
+            string s = animationStrings[i];
+            Console.Write(s);
+            Thread.Sleep(250);
+            Console.Write("\b \b");
+            i++;
+            if (i >= animationStrings.Count)
+            {
+                i = 0;
+            }
+        }
     }
 
     public void ShowCountDown(int seconds)
     {
-        // Empty stub body for countdown loops
-    }
-
-    // Public getter to share duration metric with child run processes
-    public int GetDuration()
-    {
-        return _duration;
+        for (int i = seconds; i > 0; i--)
+        {
+            Console.Write(i);
+            Thread.Sleep(1000);
+            Console.Write("\b \b");
+        }
     }
 }
