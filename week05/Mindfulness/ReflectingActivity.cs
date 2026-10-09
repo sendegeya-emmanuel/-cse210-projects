@@ -6,6 +6,7 @@ public class ReflectingActivity : Activity
     private List<string> _prompts;
     private List<string> _questions;
 
+    // Constructor that properly references the base activity requirements
     public ReflectingActivity() 
         : base("Reflecting Activity", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.")
     {
@@ -15,7 +16,7 @@ public class ReflectingActivity : Activity
 
     public void Run()
     {
-        // Custom runtime algorithm loop execution
+        // Empty stub for design compliance
     }
 
     public string GetRandomPrompt()
@@ -30,8 +31,11 @@ public class ReflectingActivity : Activity
 
     public void DisplayPrompt()
     {
+        // Stub implementation
     }
 
     public void DisplayQuestions()
     {
+        // Stub implementation
     }
+} // FIXED: This closing brace was missing, causing the CS1513 compiler crash
