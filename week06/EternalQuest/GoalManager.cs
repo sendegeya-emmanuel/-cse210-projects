@@ -128,29 +128,41 @@ public class GoalManager
         {
             _goals.Clear();
             string[] lines = File.ReadAllLines(filename);
-            _score = int.Parse(lines[0]);
-
-            for (int i = 1; i < lines.Length; i++)
+            
+            if (lines.Length > 0)
             {
-                string line = lines[i];
-                string[] mainParts = line.Split(":");
-                string type = mainParts[0];
-                string[] parts = mainParts[1].Split(",");
+                _score = int.Parse(lines[0]);
 
-                if (type == "SimpleGoal")
+                for (int i = 1; i < lines.Length; i++)
                 {
-                    _goals.Add(new SimpleGoal(parts[0], parts[1], int.Parse(parts[2]), bool.Parse(parts[3])));
+                    string line = lines[i];
+                    string[] mainParts = line.Split(":");
+                    
+                    if (mainParts.Length >= 2)
+                    {
+                        string type = mainParts[0];
+                        string[] parts = mainParts[1].Split(",");
+
+                        if (type == "SimpleGoal")
+                        {
+                            _goals.Add(new SimpleGoal(parts[0], parts[1], int.Parse(parts[2]), bool.Parse(parts[3])));
+                        }
+                        else if (type == "EternalGoal")
+                        {
+                            _goals.Add(new EternalGoal(parts[0], parts[1], int.Parse(parts[2])));
+                        }
+                        else if (type == "ChecklistGoal")
+                        {
+                            _goals.Add(new ChecklistGoal(parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]), int.Parse(parts[5])));
+                        }
+                    }
                 }
-                else if (type == "EternalGoal")
-                {
-                    _goals.Add(new EternalGoal(parts[0], parts[1], int.Parse(parts[2])));
-                }
-                else if (type == "ChecklistGoal")
-                {
-                    _goals.Add(new ChecklistGoal(parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]), int.Parse(parts[5])));
-                }
+                Console.WriteLine("Goals loaded successfully!");
             }
-            Console.WriteLine("Goals loaded successfully!");
+        }
+        else
+        {
+            Console.WriteLine("File not found.");
         }
     }
 }

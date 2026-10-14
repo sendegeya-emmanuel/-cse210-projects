@@ -33,3 +33,4 @@ public class SimpleGoal : Goal
     {
         return $"SimpleGoal:{GetName()},{GetDescription()},{GetPoints()},{_isComplete}";
     }
+}
